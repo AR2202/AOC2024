@@ -27,13 +27,13 @@ isMonotonic list =
   where
     isMonotonicIncreasing l =
       and $
-        zipWith (<) l (map head $ tail $ init $ tails l)
+        zipWith (<) l (tail l)
     isMonotonicDecreasing l =
       and $
-        zipWith (>) l (map head $ tail $ init $ tails l)
+        zipWith (>) l (tail l)
 
 diffBelow4 :: (Ord a, Num a) => [a] -> Bool
-diffBelow4 l = all ((<= 3) . abs) $zipWith (-) l (map head $ tail $ init $ tails l)
+diffBelow4 l = all ((<= 3) . abs) $zipWith (-) l (tail l)
 
 safeReps :: (Ord a, Num a) => [[a]] -> [[a]]
 safeReps =
@@ -67,9 +67,9 @@ isSafeWithOneRemoved l = go l (length l)
   where
     go _ 0 = False
     go ls n =
-      isMonotonic (take (n -1) ls ++ drop n ls)
-        && diffBelow4 (take (n -1) ls ++ drop n ls)
-        || go ls (n -1)
+      isMonotonic (take (n - 1) ls ++ drop n ls)
+        && diffBelow4 (take (n - 1) ls ++ drop n ls)
+        || go ls (n - 1)
 
 day2bsol :: IO ()
 day2bsol = do

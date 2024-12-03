@@ -1,7 +1,7 @@
 module Day01
   ( readInput,
     day1sol,
-    day2sol,
+    day1bsol,
   )
 where
 
@@ -33,8 +33,8 @@ day1sol = do
 ocurrances :: Eq a => a -> [a] -> Int
 ocurrances element list = (length . filter (== element)) list
 
-day2sol :: IO ()
-day2sol = do
+day1bsol :: IO ()
+day1bsol = do
   (list1sorted, list2sorted) <- readInput
   let numOcurrances = map (flip ocurrances list2sorted) list1sorted
   let res = sum $ zipWith (*) numOcurrances list1sorted
