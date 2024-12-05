@@ -26,6 +26,7 @@ dependencies:
 - containers
 - QuickCheck
 - hspec
+- utility-ht
 ghc-options:
 - -Wall
 - -Wcompat
