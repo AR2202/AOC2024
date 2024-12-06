@@ -4,7 +4,11 @@ import qualified Data.Text as T
 import Day03
 import Day03 (carryOutInstructions, parseAndEval, parseAsInstructions, parseFilterAndEval)
 import Day04
-import Day04 (countXmasDiagRevLines, countXmasDiagRevUpLines, countXmasDiagUpLines, countXmasReverse, countXmasReverseTranspose)
+import Day04 (countXmasDiagRevLines, 
+  countXmasDiagRevUpLines, 
+  countXmasDiagUpLines, 
+  countXmasReverse, 
+  countXmasReverseTranspose)
 import Test.Hspec
 import Test.QuickCheck
 import Text.Parsec.Error
@@ -245,7 +249,7 @@ testCountT =
 
 countDiagUp :: Expectation
 countDiagUp =
-  countXmasDiagUpLines "SSSSSS\nXAMSSS\nSAMXMAS\nMMAXBCD\nXXXMMM"
+  countXmasDiagRevUpLines "SSSSSS\nXAMSSAS\nSAMXMAS\nMMAXBCD\nXXXMMM"
     `shouldBe` 1
 
 testcountDiagUp :: SpecWith ()
@@ -262,7 +266,7 @@ countDiagR =
 
 testcountDiagR :: SpecWith ()
 testcountDiagR =
-  describe "countXmasDiagUp" $
+  describe "countXmasDiagRev" $
     it
       "should count the diagonal XMAS words upwards"
       countDiagR

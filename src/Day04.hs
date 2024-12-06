@@ -56,62 +56,33 @@ countXmasDiag s =
 countXmasDiagLines :: String -> Int
 countXmasDiagLines s = sum $ map countXmasDiag $ tails $ lines s
 
-diag = take 4 . map (zipWith rotate [0 ..]) $tails $ reverse $ lines example4
-
-countXmasDiagUp :: [[Char]] -> Int
-countXmasDiagUp s =
-  sum $
-    map countXmas $
-      transpose $
-        map (\x -> take (length x - 3) x) $
-          take 4 $
-            zipWith rotate [0 ..] s
+-- | for testing
+diag :: [[[Char]]]
+diag =
+  take 4 . map (zipWith rotate [0 ..]) $
+    tails $ reverse $ lines example4
 
 countXmasDiagUpLines :: String -> Int
 countXmasDiagUpLines s =
   sum $
-    map countXmasDiagUp $
+    map countXmasDiag $
       tails $
         map reverse $
           reverse $
             lines s
 
-countXmasDiagRev :: [[Char]] -> Int
-countXmasDiagRev s =
-  sum $
-    map countXmas $
-      transpose $
-        map (\x -> take (length x - 3) x) $
-          take 4 $
-            zipWith
-              rotate
-              [0 ..]
-              s
-
 countXmasDiagRevLines :: String -> Int
 countXmasDiagRevLines s =
   sum $
-    map countXmasDiagRev $
+    map countXmasDiag $
       tails $
         map reverse $
           lines s
 
-countXmasDiagRevUp :: [[Char]] -> Int
-countXmasDiagRevUp s =
-  sum $
-    map countXmas $
-      transpose $
-        map (\x -> take (length x - 3) x) $
-          take 4 $
-            zipWith
-              rotate
-              [0 ..]
-              s
-
 countXmasDiagRevUpLines :: String -> Int
 countXmasDiagRevUpLines s =
   sum $
-    map countXmasDiagRevUp $
+    map countXmasDiag $
       tails $
         reverse $
           lines s
@@ -131,6 +102,7 @@ countAll s =
         countXmasDiagRevUpLines
       ]
 
+-- | for test only
 rotate1 :: [a] -> [a]
 rotate1 = rotate 1
 
@@ -156,6 +128,7 @@ addCoordinates ls = zip coordlist chars
     coordlist = makeCoordinates ((length . head) ls) (length ls)
     chars = (concat . transpose) ls
 
+isMas :: (Eq a, Eq b, Num a, Num b) => [((a, b), Char)] -> (a, b) -> Bool
 isMas l (x, y) =
   ( ( 'M' == (snd $ head $ filter ((== (x -1, y -1)) . fst) l)
         && 'S' == (snd $ head $ filter ((== (x + 1, y + 1)) . fst) l)
@@ -172,4 +145,5 @@ isMas l (x, y) =
               )
        )
 
+isBorder :: (Eq a1, Eq a2, Num a1, Num a2) => (a1, a2) -> Bool
 isBorder (x, y) = x `elem` [1, 140] || y `elem` [1, 140]
