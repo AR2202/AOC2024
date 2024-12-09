@@ -1,0 +1,131 @@
+function listFromRange(startval:int, endval:int) -> [int]{
+    var l: mut[int] = mut [];
+    
+    while (endval >= startval){
+        lists::add(l, startval);
+        startval ++;
+
+    }
+    var immutableL: [int] = copy(l);
+    return immutableL;
+}
+function concat<T>(l: [[T]]) -> [T]{
+    var concatlist: mut[T] = mut [];
+    for (sublist in l){
+        
+        _ = lists::addAll(concatlist,sublist);
+    }
+    return copy(concatlist);
+}
+
+function makeAntennaDict(strs:[string]) ->  mut{char : mut[tuple<int, int>]}{
+    var charlists: [[char]] = [strings::splitChars(s) | s in strs];
+    var dict : mut {char: mut[tuple<int,int>]} = mut {};
+    for (i in listFromRange(0, len(charlists)-1)){
+        for (j in listFromRange(0, len(charlists[0])-1)){
+            var emptyList: mut[tuple<int, int>] = mut[];
+            var key = charlists[i][j];
+            var currentList = maps::getOrDefaultFromMut(dict, key, emptyList);
+            lists::add(currentList, (i,j));
+            dict[key] = currentList;
+    }
+    }
+    return dict;
+}
+
+
+function day8Part1(strs:[string]) -> int{
+    var ybound: int = len(strs);
+    var xbound: int = len (strs[0]);
+    var dict : mut {char: mut[tuple<int,int>]} = makeAntennaDict(strs);
+    var keys :{char} = maps::keySetOfMut(dict);
+    var antinodeSet: mut{tuple<int, int>} = sets::emptyMutSet();
+    for (key in keys){
+        if (key != '.'){
+            var coordlist: mut[tuple<int,int>] = dict[key];           
+            var allpairs:[tuple<tuple<int, int>,tuple<int, int>>] = concat([[(xn, yn) | xn in coordlist]|yn in coordlist]);          
+            for (tup in allpairs){
+                if (tup[0] != tup[1]){                   
+                    var dist: tuple<int,int> =  (tup[0][0] - tup[1][0], tup[0][1] - tup[1][1]);
+                    var first_anti: tuple<int,int> = (tup[0][0] + dist[0], tup[0][1] + dist[1]);
+                    var sec_anti: tuple<int,int> = (tup[1][0] - dist[0], tup[1][1] - dist[1]);                
+                    if ((first_anti[0] >= 0) and (first_anti[0] < xbound) and(first_anti[1]>= 0 )and(first_anti[1] < ybound)){                       
+                        _ = sets::add(antinodeSet, first_anti); 
+
+                    }
+                    if ((sec_anti[0] >= 0) and (sec_anti[0] < xbound) and(sec_anti[1]>=0 )and(sec_anti[1] < ybound)){
+                        
+                        _ = sets::add(antinodeSet, sec_anti); 
+
+                    }
+                }
+            }
+          
+        }
+    }
+    return len(antinodeSet);
+}
+
+function gcd(i: int, j:int) -> int{
+    if ((i == 1) or (j == 1)){
+        return 1;
+    }
+    var testval = 2;
+    var current_gcd = 1;
+    while ((testval < i) and (testval < j)){
+        if ((i%testval == 0) and (j%testval == 0)){
+            current_gcd = testval;
+        }
+        testval ++;
+    }
+    return current_gcd;
+}
+function day8Part2(strs:[string]) -> int{
+    var ybound: int = len(strs);
+    var xbound: int = len (strs[0]);
+    var dict : mut {char: mut[tuple<int,int>]} = makeAntennaDict(strs);
+    var keys :{char} = maps::keySetOfMut(dict);
+    var antinodeSet: mut{tuple<int, int>} = sets::emptyMutSet();
+    for (key in keys){
+        if (key != '.'){            
+            var coordlist: mut[tuple<int,int>] = dict[key];          
+            var allpairs:[tuple<tuple<int, int>,tuple<int, int>>] = concat([[(xn, yn) | xn in coordlist]|yn in coordlist]);          
+            for (tup in allpairs){
+                if (tup[0] != tup[1]){                  
+                    var dist: tuple<int,int> =  (tup[0][0] - tup[1][0], tup[0][1] - tup[1][1]);
+                    var gcd_dist = gcd(dist[0], dist[1]);
+                    var dist_standard = (dist[0]/gcd_dist, dist[1]/gcd_dist);
+                    var next_coord: tuple<int, int> = tup[0];
+                    while ((next_coord[0] >= 0) and (next_coord[0] < xbound) and(next_coord[1]>= 0 )and(next_coord[1] < ybound)){
+                       
+                        _ = sets::add(antinodeSet, next_coord); 
+                        next_coord = (next_coord[0] + dist_standard[0], next_coord[1] + dist_standard[1]);
+                    }
+                    next_coord = tup[0];
+                    while ((next_coord[0] >= 0) and (next_coord[0] < xbound) and(next_coord[1]>= 0 )and(next_coord[1] < ybound)){
+                        
+                        _ = sets::add(antinodeSet, next_coord); 
+                        next_coord = (next_coord[0] - dist_standard[0], next_coord[1] - dist_standard[1]);
+
+
+                    }
+                }
+            }
+          
+        }
+    }
+    return len(antinodeSet);
+}
+
+print("Day 8 Part 1:");
+resources::Input
+  |> files::readOrPanic(^)
+  |> strings::split(^, "\n")
+  |> day8Part1(^)
+  |> print(^);
+print("Day 8 Part 2:");
+resources::Input
+  |> files::readOrPanic(^)
+  |> strings::split(^, "\n")
+  |> day8Part2(^)
+  |> print(^);
