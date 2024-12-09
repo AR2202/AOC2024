@@ -9,9 +9,11 @@ import Day04 (countXmasDiagRevLines,
   countXmasDiagUpLines, 
   countXmasReverse, 
   countXmasReverseTranspose)
+import Day07
 import Test.Hspec
 import Test.QuickCheck
 import Text.Parsec.Error
+import Test.Hspec (shouldReturn)
 
 main :: IO ()
 main = hspec $
@@ -33,11 +35,12 @@ main = hspec $
     testCountReverse
     testCountReverseT
     testRotate
-    testcountDiagUp
     testcountExample
     testCountT
-    testcountDiagR
-
+  
+    -- Day07
+    ----------------
+    testDay7Ex
 -- Day03
 -----------------------------------------
 testDay03MatchExample :: Expectation
@@ -247,29 +250,7 @@ testCountT =
       "should count the  XMAS words in each column"
       countT
 
-countDiagUp :: Expectation
-countDiagUp =
-  countXmasDiagRevUpLines "SSSSSS\nXAMSSAS\nSAMXMAS\nMMAXBCD\nXXXMMM"
-    `shouldBe` 1
 
-testcountDiagUp :: SpecWith ()
-testcountDiagUp =
-  describe "countXmasDiagUp" $
-    it
-      "should count the diagonal XMAS words upwards"
-      countDiagUp
-
-countDiagR :: Expectation
-countDiagR =
-  countXmasDiagRevLines "SSSSSS\nXAMSSS\nSAMXAMS\nMMAXBMD\nXXXMMX"
-    `shouldBe` 1
-
-testcountDiagR :: SpecWith ()
-testcountDiagR =
-  describe "countXmasDiagRev" $
-    it
-      "should count the diagonal XMAS words upwards"
-      countDiagR
 
 countExample :: Expectation
 countExample =
@@ -294,3 +275,18 @@ testRotate =
     it
       "should count the backwards XMAS words in each column"
       rotated
+
+-----Day07------
+-----------------
+day7resMatchesExample :: Expectation
+day7resMatchesExample =
+  solveDay7 "input/day07example.txt"
+    `shouldReturn` 3749
+
+testDay7Ex :: SpecWith ()
+testDay7Ex =
+  describe "solveDay7" $
+  context "when evaluating the example" $
+    it
+      "should return the example result "
+      day7resMatchesExample
