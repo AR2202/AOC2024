@@ -27,6 +27,7 @@ dependencies:
 - QuickCheck
 - hspec
 - utility-ht
+- split
 ghc-options:
 - -Wall
 - -Wcompat

@@ -2,6 +2,7 @@ module Day01
   ( readInput,
     day1sol,
     day1bsol,
+    readInt
   )
 where
 
