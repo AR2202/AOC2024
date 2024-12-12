@@ -90,6 +90,7 @@ spacePosSize (i, l) = (i, last l)
 findFilePos _ [] _ = []
 findFilePos [] ((fid, (j, r)) : rs) unsuccessful = (fid, (j, r)) : findFilePos (reverse unsuccessful) rs []
 findFilePos ((i, s) : ss) ((fid, (j, r)) : rs) unsuccessful
+  | i > j = (fid, (j, r)) : findFilePos (reverse unsuccessful ++ ((i, s) : ss)) rs []
   | s > r = (fid, (i, r)) : findFilePos (reverse unsuccessful ++ ((i + r, s - r) : ss)) rs []
   | s == r = (fid, (i, r)) : findFilePos (reverse unsuccessful ++ ss) rs []
   | otherwise = findFilePos ss ((fid, (j, r)) : rs) ((i, s) : unsuccessful)

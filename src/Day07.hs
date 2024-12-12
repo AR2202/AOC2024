@@ -1,7 +1,5 @@
 module Day07 (day7a, day7b, solveDay7) where
 
-data ResultTree = Leaf Int | Node Int ResultTree ResultTree deriving (Show, Read, Eq)
-
 day7a :: IO ()
 day7a = solveDay7 "input/day07.txt" >>= print
 day7b :: IO ()
