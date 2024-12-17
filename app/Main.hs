@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Lib
+import Day14
 
 main :: IO ()
-main = someFunc
+main = treeAnimateFromFile "input/day14.txt"

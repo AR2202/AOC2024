@@ -28,6 +28,7 @@ dependencies:
 - hspec
 - utility-ht
 - split
+- gloss
 ghc-options:
 - -Wall
 - -Wcompat
