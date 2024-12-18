@@ -33,6 +33,8 @@ library
       Day09
       Day10
       Day11
+      Day14
+      Day17
       Lib
   other-modules:
       Paths_AOC2024
@@ -45,6 +47,7 @@ library
       QuickCheck
     , base >=4.7 && <5
     , containers
+    , gloss
     , hspec
     , parsec
     , split
@@ -66,6 +69,7 @@ executable AOC2024-exe
     , QuickCheck
     , base >=4.7 && <5
     , containers
+    , gloss
     , hspec
     , parsec
     , split
@@ -88,6 +92,7 @@ test-suite AOC2024-test
     , QuickCheck
     , base >=4.7 && <5
     , containers
+    , gloss
     , hspec
     , parsec
     , split
