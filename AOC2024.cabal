@@ -35,6 +35,10 @@ library
       Day11
       Day14
       Day17
+      Day19
+      Day21
+      Day22
+      Day23
       Lib
   other-modules:
       Paths_AOC2024
