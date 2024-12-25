@@ -40,6 +40,7 @@ library
       Day22
       Day23
       Day24
+      Day25
       Lib
   other-modules:
       Paths_AOC2024
